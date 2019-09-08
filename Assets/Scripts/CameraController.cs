@@ -3,18 +3,36 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
+    #region Fields
 
     public GameObject player;
+    public bool isPlay;
 
     private Vector3 offset;
 
-    void Start()
+    #endregion
+
+    #region Methods
+
+    public Vector3 GetOffset() => offset;
+
+    private void Awake()
     {
         offset = transform.position - player.transform.position;
     }
 
-    void LateUpdate()
+    private void Start()
     {
-        transform.position = player.transform.position + offset;
+        isPlay = false;
     }
+
+    private void LateUpdate()
+    {
+        if (isPlay)
+        {
+            transform.position = player.transform.position + offset;
+        }
+    }
+
+    #endregion
 }
