@@ -6,26 +6,20 @@ public class PlayerController : MonoBehaviour
 {
 
 	public float speed;
-    public Text countText;
-    public Text winText;
 
     private CameraController cameraController;
+    private UIManager UI;
 	private Rigidbody rb;
-    private int count;
 
-	void Start ()
+    private void Start()
 	{
         cameraController = Camera.main.GetComponent<CameraController>();
+        UI = cameraController.GetComponent<UIManager>();
 
-		rb = GetComponent<Rigidbody>();
-        count = 0;
-        SetCountText();
-
-        winText.text = string.Empty;
-
+        rb = GetComponent<Rigidbody>();
 	}
 
-	void FixedUpdate ()
+    private void FixedUpdate()
 	{
         if (cameraController.isPlay)
         {
@@ -38,22 +32,8 @@ public class PlayerController : MonoBehaviour
         }
 	}
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Pick Up"))
-        {
-            other.gameObject.SetActive(false);
-            count += 1;
-            SetCountText();
-        }
-    }
-
-    void SetCountText()
-    {
-        countText.text = $"Count: {count}";
-        if (count >= 8 )
-        {
-            winText.text = "You Win!";
-        }
+        UI.PickUp(other);
     }
 }
