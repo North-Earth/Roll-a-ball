@@ -349,6 +349,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: {fileID: 873145333}
   productName: {fileID: 80810392}
+  countText: {fileID: 0}
+  winText: {fileID: 0}
   observer: {fileID: 892157686}
 --- !u!224 &1335010771 stripped
 RectTransform:
