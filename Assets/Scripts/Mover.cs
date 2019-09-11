@@ -40,11 +40,6 @@ public class Mover : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, startingPosition, step);
         }
-
-        if (Vector3.Distance(transform.position, targetPosition) < 0.001f)
-        {
-            targetPosition *= -1.0f;
-        }
     }
 
     #endregion
