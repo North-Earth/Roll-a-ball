@@ -6,9 +6,12 @@ public class Mover : MonoBehaviour
 {
     #region Filds
 
+    public GameObject Player;
+
     public Vector3 targetPosition;
-    public float speed;
+    public float speed = 5;
     public bool isRepeat;
+
 
     private Vector3 startingPosition;
     private bool isFlip;
@@ -42,5 +45,20 @@ public class Mover : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Player.transform.parent = transform;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Player.transform.parent = null;
+        }
+    }
     #endregion
 }
