@@ -8,11 +8,8 @@ public class GameManager : MonoBehaviour
 {
     #region Fields
 
-    public GameObject gameMenu;
-    public GameObject UI;
-    public Text pauseText;
-
     private Scene scene;
+
     #endregion
 
     #region Methods
@@ -45,22 +42,10 @@ public class GameManager : MonoBehaviour
         
     }
 
-    [System.Obsolete]
-    public void ToggleGameMenu()
-    {
-        if (gameMenu != null)
-        {
-            UI.SetActive(!UI.active);
-            gameMenu.SetActive(!gameMenu.active);
-        }
-    }
-
     public void ToggleGamePause()
     {
         if (!scene.name.ToLower().Contains("menu"))
         {
-            pauseText.enabled = !pauseText.enabled;
-
             if (Time.timeScale == 1.0f)
             {
                 Time.timeScale = 0.0f;
@@ -72,24 +57,44 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [System.Obsolete]
-    public void ToggleUI()
+    public string GetVersion() => $"version {Application.version}";
+
+    public string GetProductName() => Application.productName;
+
+    public void StartNewGame()
     {
-        if (UI != null)
-        {
-            UI.SetActive(!UI.active);
-        }
+        LoadScene(1);
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadGame()
+    {
+        LoadScene(1);
+    }
+
+    public void RestartGame()
+    {
+        RestartScene();
+    }
+
+    public void ExitToMainMenu()
+    {
+        LoadScene(0);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    private void LoadScene(string sceneName)
     {
         if (scene.name != sceneName)
         {
-            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            SceneManager.LoadScene(sceneName);
         }
     }
 
-    public void LoadScene(int sceneBuildIndex)
+    private void LoadScene(int sceneBuildIndex)
     {
         if (scene.buildIndex != sceneBuildIndex)
         {
@@ -97,19 +102,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RestartScene()
+    private void RestartScene()
     {
-        SceneManager.LoadScene(scene.name, LoadSceneMode.Single);
-    }
-
-    public void ExitToMainMenu()
-    {
-        SceneManager.LoadScene("DemoMenu", LoadSceneMode.Single);
-    }
-
-    public void Exit()
-    {
-        Application.Quit();
+        SceneManager.LoadScene(scene.name);
     }
 
     #endregion

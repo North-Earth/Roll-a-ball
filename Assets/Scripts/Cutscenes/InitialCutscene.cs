@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InitialCutscene : MonoBehaviour
 {
     #region Fields
 
-    private CameraController cameraController;
-    private Vector3 offset;
+    public GameObject player;
+    public float speed;
+
+    private Vector3 cameraPosition;
 
     #endregion
 
@@ -15,26 +15,27 @@ public class InitialCutscene : MonoBehaviour
 
     private void Start()
     {
-        cameraController = Camera.main.GetComponent<CameraController>();
-        offset = cameraController.GetOffset();
-
-        Vector3 position = new Vector3(x: 0.0f, 2.5f, -3.0f);
-        transform.localPosition = position;
+        SetEnableScripts(false);
+        cameraPosition = Camera.main.transform.localPosition;
+        transform.localPosition = player.transform.position;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        Vector3 position = transform.localPosition;
-        position.y += 0.1f;
-        position.z -= 0.1f;
+        float step = speed * Time.deltaTime;
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, cameraPosition, step);
 
-        transform.localPosition = position;
-
-        if (position.y >= offset.y && position.z <= offset.z)
+        if (transform.localPosition == cameraPosition)
         {
-            cameraController.isPlay = true;
+            SetEnableScripts(true);
             this.enabled = false;
         }
+    }
+
+    private void SetEnableScripts(bool enabled)
+    {
+        player.GetComponent<PlayerController>().enabled = enabled;
+        this.GetComponent<CameraController>().enabled = enabled;
     }
 
     #endregion
