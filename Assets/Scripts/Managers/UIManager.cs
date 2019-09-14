@@ -1,19 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     #region Fields
 
-    public Text version;
-    public Text productName;
-    public Text countText;
-    public Text winText;
+    public GameObject gameMenu;
+    public GameObject overlay;
+    public GameManager gameManager;
 
-    public GameObject observer;
-    private GameManager gameManager;
+    public Text productNameText;
+    public Text vesionText;
+
+    public Text gameInfoText;
+    public Text countText;
 
     private int count;
 
@@ -21,92 +24,93 @@ public class UIManager : MonoBehaviour
 
     #region Methods
 
+    // PreStart
     private void Awake()
     {
-        version.text = $"version: {Application.version}";
-        productName.text = Application.productName;
-        gameManager = observer.GetComponent<GameManager>();
+        vesionText.text = gameManager.GetVersion();
+        productNameText.text = gameManager.GetProductName();
+        SetEnableGameMenu(false);
     }
 
+    // Start is called before the first frame update
     private void Start()
     {
-        count = 0;
+        count = 0; //TODO: Save count.
         SetCountText();
     }
 
-    [System.Obsolete]
+    // Update is called once per frame
     private void Update()
     {
         KeyDownCheck();
     }
 
-    [System.Obsolete]
     private void KeyDownCheck()
     {
         if (Input.GetKeyDown("escape"))
-            gameManager.ToggleGameMenu();
-        else if (Input.GetKeyDown("p"))
-            gameManager.ToggleGamePause();
-        else if (Input.GetKeyDown("u"))
-            gameManager.ToggleUI();
-    }
-
-
-    public void PickUp(Collider other)
-    {
-        if (other.gameObject.CompareTag("Pick Up"))
         {
-            other.gameObject.SetActive(false);
-            count += 1;
-            SetCountText();
+            SetEnableGameMenu(!gameMenu.activeSelf);
         }
     }
+
+    private void SetEnableGameMenu(bool enable)
+    {
+        overlay.SetActive(!enable);
+        gameMenu.SetActive(enable);
+    }
+
+    private void SetGameInfoText(string text)
+    {
+        gameInfoText.enabled = true;
+        gameInfoText.text = text;
+    }
+
+    #region Button Clicks
+
+    public void Resume() => SetEnableGameMenu(false);
+
+    public void Restart() => gameManager.RestartGame();
+
+    public void Options()
+    {
+        /* TODO: Create options menu */
+        print(System.Reflection.MethodBase.GetCurrentMethod().Name);
+    }
+
+    public void ExitToMenu() => gameManager.ExitToMainMenu();
+
+    public void ExitGame() => gameManager.ExitGame();
+
+    #endregion
+
+    #region Gameplay
+
+    public void PickUp()
+    {
+        count += 1;
+        SetCountText();
+    }
+
     public void SetCountText()
     {
         if (countText != null)
         {
             countText.text = $"Count: {count}";
-            if (count >= 8)
-            {
-                winText.enabled = true;
-                winText.text = "You Win!";
-            }
         }
     }
 
-    public void PlayNewGame()
+    public void FinishGame()
     {
-        gameManager.LoadScene(1);
+        SetGameInfoText("You Win!\n" +
+            $"You pick {count}");
     }
 
-    public void PlayGame()
+    public void EndGame()
     {
-        gameManager.LoadScene("");
+        SetGameInfoText("You Lose!");
     }
-
-    public void RestartGame()
-    {
-        gameManager.RestartScene();
-    }
-
-    [System.Obsolete]
-    public void Continue()
-    {
-        gameManager.ToggleUI();
-    }
-
-    public void ExitToMainMenu()
-    {
-        gameManager.ExitToMainMenu();
-    }
-    public void Exit()
-    {
-        gameManager.Exit();
-    }
-
-
-
 
     #endregion
 
+    #endregion
 }

@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     #region Fields
 
     public float speed;
+    public GameObject mainUI;
 
     private Rigidbody rb;
+    private UIManager UIManager;
 
     #endregion
 
@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        UIManager = mainUI.GetComponent<UIManager>();
     }
 
     private void FixedUpdate()
@@ -31,7 +32,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //UI.PickUp(other);
+        if (other.tag == "Pick Up")
+        {
+            other.gameObject.SetActive(false);
+            UIManager.PickUp();
+        }
+        else if (other.tag == "Finish")
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            UIManager.FinishGame();
+            this.enabled = false;
+        }
+        else if (other.tag == "Respawn")
+        {
+            UIManager.Restart();
+        }
     }
 
     #endregion
