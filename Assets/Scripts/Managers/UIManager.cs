@@ -101,13 +101,16 @@ public class UIManager : MonoBehaviour
 
     public void FinishGame()
     {
-        SetGameInfoText("You Win!\n" +
-            $"You pick {count}");
+        //SetGameInfoText("You Win!\n" +
+        //    $"You pick {count}");
+        gameManager.StartNextLevel();
     }
 
     public void EndGame()
     {
         SetGameInfoText("You Lose!");
+        var image = overlay.GetComponent<Image>();
+        image.color = new Color(1,0,0,0.3f);
     }
 
     #endregion

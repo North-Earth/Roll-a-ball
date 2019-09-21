@@ -86,6 +86,12 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void StartNextLevel()
+    {
+        var sceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
+        LoadScene(sceneBuildIndex + 1);
+    }
+
     private void LoadScene(string sceneName)
     {
         if (scene.name != sceneName)

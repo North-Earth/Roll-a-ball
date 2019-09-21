@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 
     public float speed;
     public GameObject mainUI;
+    public GameObject gravestone;
 
     private Rigidbody rb;
     private UIManager UIManager;
@@ -32,21 +33,28 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Pick Up")
+        switch (other.tag)
         {
-            other.gameObject.SetActive(false);
-            UIManager.PickUp();
-        }
-        else if (other.tag == "Finish")
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            UIManager.FinishGame();
-            this.enabled = false;
-        }
-        else if (other.tag == "Respawn")
-        {
-            UIManager.Restart();
+            case "Finish":
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                UIManager.FinishGame();
+                this.enabled = false;
+                break;
+            case "Pick Up":
+                other.gameObject.SetActive(false);
+                UIManager.PickUp();
+                break;
+            case "Respawn":
+                break;
+            case "Death Zone":
+                var gm = Instantiate(gravestone);
+                gm.transform.position = this.gameObject.transform.position;
+                this.gameObject.SetActive(false);
+                UIManager.EndGame();
+                break;
+            default:
+                break;
         }
     }
 
