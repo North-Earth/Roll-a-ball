@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecdadc7f128d9f49908b990b0fe7a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  Player: {fileID: 5503883750957702653, guid: d6faad765e4b3424492fb82f644f6a10, type: 3}
   targetPosition: {x: 5, y: 5, z: 5}
   speed: 3
   isRepeat: 1
