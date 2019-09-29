@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     #region Fields
 
+    public List<Camera> cameras;
+
     private Scene scene;
 
     #endregion
@@ -90,6 +92,27 @@ public class GameManager : MonoBehaviour
     {
         var sceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
         LoadScene(sceneBuildIndex + 1);
+    }
+
+    public void CameraSwitch()
+    {
+        for (int i = 0; i < cameras.Count; i++)
+        {
+            if (cameras[i].enabled == true)
+            {
+                cameras[i].enabled = false;
+                if (i + 1 == cameras.Count)
+                {
+                    cameras[0].enabled = true;
+                }
+                else
+                {
+                    cameras[i + 1].enabled = true;
+                }
+
+                break;
+            }
+        }
     }
 
     private void LoadScene(string sceneName)
