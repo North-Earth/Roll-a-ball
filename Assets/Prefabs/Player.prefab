@@ -267,4 +267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  mainUI: {fileID: 0}
+  mainUI: {fileID: 1765003580328972155, guid: f17948e6f1011d2419a50fa3318ef825, type: 3}
+  gravestone: {fileID: 4594120042328182356, guid: 52018c8b0631e4747b4651f559d5e04f,
+    type: 3}
