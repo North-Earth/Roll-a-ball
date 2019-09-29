@@ -13,10 +13,12 @@ public class Teleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
-        {
-            other.gameObject.transform.position = destination;
-        }
+        //if (other.tag == "Player")
+        //{
+        //    other.gameObject.transform.position = destination;
+        //}
+
+        other.gameObject.transform.position = destination;
     }
 
     #endregion

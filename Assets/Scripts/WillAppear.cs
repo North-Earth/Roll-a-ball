@@ -5,6 +5,7 @@ public class WillAppear : MonoBehaviour
     #region Fields
 
     public new GameObject gameObject;
+    public bool isPlayerOnly;
 
     #endregion
 
@@ -13,7 +14,14 @@ public class WillAppear : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (isPlayerOnly)
+        {
+            if (other.tag == "Player")
+            {
+                gameObject.SetActive(true);
+            }
+        }
+        else
         {
             gameObject.SetActive(true);
         }
