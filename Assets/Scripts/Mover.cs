@@ -49,7 +49,7 @@ public class Mover : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Player.transform.parent = transform;
+            Player.transform.parent = transform;    
         }
     }
 

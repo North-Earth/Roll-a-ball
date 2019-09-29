@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 
     public GameObject gameMenu;
     public GameObject overlay;
+    public GameObject deathScreen;
     public GameManager gameManager;
 
     public Text productNameText;
@@ -29,6 +30,7 @@ public class UIManager : MonoBehaviour
     {
         vesionText.text = gameManager.GetVersion();
         productNameText.text = gameManager.GetProductName();
+        deathScreen.SetActive(false);
         SetEnableGameMenu(false);
     }
 
@@ -47,9 +49,13 @@ public class UIManager : MonoBehaviour
 
     private void KeyDownCheck()
     {
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             SetEnableGameMenu(!gameMenu.activeSelf);
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            gameManager.CameraSwitch();
         }
     }
 
@@ -101,13 +107,14 @@ public class UIManager : MonoBehaviour
 
     public void FinishGame()
     {
-        SetGameInfoText("You Win!\n" +
-            $"You pick {count}");
+        //SetGameInfoText("You Win!\n" +
+        //    $"You pick {count}");
+        gameManager.StartNextLevel();
     }
 
     public void EndGame()
     {
-        SetGameInfoText("You Lose!");
+        deathScreen.SetActive(true);
     }
 
     #endregion
